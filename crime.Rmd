@@ -53,5 +53,5 @@ mapPoints <- mapPoints+
 
 ## Reproducibility
 
-This report was produced using an R Markdown script, a feature of the R programming language that allows for a "literate" programming style which mixes text with executable code. The full source code is available [here](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true) and the data set is available [here](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true).
+This report was produced using an R Markdown script, a feature of the R programming language that allows for a "literate" programming style which mixes text with executable code. The full source code is available [here](https://github.com/jeremyshantz/seattle-crime-analytics/raw/master/crime.Rmd) and the data set is available [here](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true).
 
