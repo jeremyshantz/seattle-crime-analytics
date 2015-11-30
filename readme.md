@@ -8,7 +8,7 @@ Seattle's crime was highest in the city centre during the summer of 2014. Using 
 
 ## Summarized Offense Description
 
-Next we examine the pattern of common crimes in the city centre. Focusing on the Summarized Offense Description field, we restrict our dataset to only the top 10 summarized offenses. Crime reports are plotted on a map of the city centre, coloured by offense. We further facet the plot by month. This figure allows us to see the distribution of common crimes in the core, and the pattern of that distribution across time. These plots use color to highlight a categorical variable and temporal facetting the plots illustrates change.
+Next we examine the pattern of common crimes in the city centre. Focusing on the Summarized Offense Description field, we restrict our dataset to only the top 10 summarized offenses. Crime reports are plotted on a map of the city centre, coloured by offense. We further facet the plot by month. This figure allows us to see the distribution of common crimes in the core, and the pattern of that distribution across time. These plots use color to highlight a categorical variable and temporal facetting to illustrate change.
 
 ![Fig 2. Seattle Top Crimes Monthly, Summer 2014](crime_files/figure-html/unnamed-chunk-2-1.png) 
 
