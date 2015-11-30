@@ -1,0 +1,57 @@
+---
+title: "Crime Highest in Central Seattle during Summer 2014"
+author: "Jeremy Shantz"
+date: '2015-11-26'
+output: 
+    html_document: 
+        fig_caption: yes
+        keep_md: true
+
+---
+
+Seattle's crime was highest in the city centre during the summer of 2014. Using 32,000+ crime reports collected from June to July as part of the [Seattle Summer 2014 dataset](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true), we constructed a heatmap overlaid on top of a map of Seattle. A significant "hot spot" can clearly be seen in the centre of the city. In the North end, we observe a cluster of smaller hot spots.
+
+```{r, echo=FALSE, warning=FALSE, fig.cap="Fig 1. Seattle Crime Heatmap, Summer 2014", fig.width=10 }
+
+suppressPackageStartupMessages(library(ggmap))
+setwd('~/courses/data_manipulation_at_scale/datasci_course_materials/assignment6')
+data = read.csv("seattle_incidents_summer_2014.csv")
+data$Month <- factor(data$Month, levels = c (6,7,8), labels= c("June", "July", "August"))
+suppressMessages(seattle <- get_map(location = 'Seattle', zoom = 11))
+
+ggmap(seattle, extent='device') +
+    #geom_point(aes(x = Longitude, y = Latitude), data = data, alpha = .15)+ 
+  # geom_density2d(data=data, aes(x=Longitude, y=Latitude), size=1, color='yellow') +
+ stat_density2d(data=data, aes(x=Longitude, y=Latitude, n = 100,  fill = ..level.., alpha = ..level..),  size = .01, bins = 100, geom = 'polygon', guide=FALSE) +
+    scale_fill_gradient(low = "orange", high = "red", guide=FALSE) + 
+ guides(colour=FALSE, size=FALSE, shape=FALSE, fill=FALSE, alpha=FALSE)  
+```
+
+## Summarized Offense Description
+
+Next we examine the pattern of common crimes in the city centre. Focusing on the Summarized Offense Description field, we restrict our dataset to only the top 10 summarized offenses. Crime reports are plotted on a map of the city centre, coloured by offense. We further facet the plot by month. This figure allows us to see the distribution of common crimes in the core, and the pattern of that distribution across time.
+
+```{r, echo=FALSE, warning=FALSE, fig.cap="Fig 2. Seattle Top Crimes Monthly, Summer 2014", fig.width=10, fig.height=3}
+
+offensef <- as.data.frame(table(data$Summarized.Offense.Description))
+offenses <- offensef[offensef$Freq > 1021,]$Var1
+limitedset <- data[data$Summarized.Offense.Description %in%  offenses,]
+suppressMessages(seattle <- get_map(location = 'Seattle', zoom = 14))
+
+suppressMessages(mapPoints <- ggmap(seattle) )
+mapPoints <- mapPoints+  
+    geom_point(aes(x = Longitude, y = Latitude, color=Summarized.Offense.Description, size=8), data = limitedset, alpha = .15) + 
+    guides(size=FALSE, shape=FALSE, fill=FALSE, alpha=FALSE) +
+    guides(colour = guide_legend(override.aes = list(size=2, alpha=1), title=NULL )) +
+    labs( x = NULL, y=NULL) + 
+    theme(axis.ticks.x = element_blank(),axis.text.x = element_blank(), axis.ticks.y = element_blank(),axis.text.y = element_blank(), legend.position="right", legend.text = element_text(size=8)) + 
+     facet_grid(. ~ Month)
+    suppressMessages(mapPoints)
+
+```
+
+
+## Reproducibility
+
+This report was produced using an R Markdown script, a feature of the R programming language that allows for a "literate" programming style which mixes text with executable code. The full source code is available [here](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true) and the data set is available [here](https://github.com/uwescience/datasci_course_materials/blob/master/assignment6/seattle_incidents_summer_2014.csv?raw=true).
+
